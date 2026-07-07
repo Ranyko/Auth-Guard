@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+      # Nosso banco de dados relacional
+      postgres:
+        image: postgres:15-alpine
+        container_name: authguard_pg
+        environment:
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: adminpassword
+          POSTGRES_DB: authguard_db
+        ports:
+          - "5432:5432"
+        volumes:
+          - pgdata:/var/lib/postgresql/data
+        restart: unless-stopped # Se o Docker reiniciar, o banco volta sozinho
+  
+      # Nosso banco de dados em memória (cache/sessões)
+      redis:
+        image: redis:7-alpine
+        container_name: authguard_redis
+        ports:
+          - "6379:6379"
+        restart: unless-stopped
+  
+# Declaração dos volumes para os dados não sumirem quando o container parar
+volumes:
+    pgdata:
