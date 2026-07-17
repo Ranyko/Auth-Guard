@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 authguard-roadmap-2.md
+ignored_files.zip
 
 ### STS ###
 .apt_generated

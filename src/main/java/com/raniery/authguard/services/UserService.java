@@ -1,6 +1,8 @@
 package com.raniery.authguard.services;
 
+import com.raniery.authguard.models.Role;
 import com.raniery.authguard.models.User;
+import com.raniery.authguard.repositories.RoleRepository;
 import com.raniery.authguard.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class UserService {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     public User registerUser (User user) {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new
@@ -27,6 +32,11 @@ public class UserService {
         
         String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
+        
+        Role userRole = roleRepository.findByName("ROLE_USER");
+        if (userRole != null){
+            user.getRoles().add(userRole);
+        }
         return userRepository.save(user);
     }
 
