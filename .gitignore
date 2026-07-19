@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 authguard-roadmap-2.md
 ignored_files.zip
+.DS_Store
 
 ### STS ###
 .apt_generated

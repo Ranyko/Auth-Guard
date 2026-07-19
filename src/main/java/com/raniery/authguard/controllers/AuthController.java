@@ -1,8 +1,12 @@
 package com.raniery.authguard.controllers;
 
 import com.raniery.authguard.dtos.LoginRequestDTO;
+import com.raniery.authguard.dtos.RegisterRequestDTO;
 import com.raniery.authguard.models.User;
 import com.raniery.authguard.services.UserService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,10 +23,15 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
+    public ResponseEntity<?> register(@RequestBody @Valid RegisterRequestDTO body) {
 
         try {
-            User savedUser = userService.registerUser(user);
+            User newUser = new User();
+            newUser.setName(body.name());
+            newUser.setEmail(body.email());
+            newUser.setPassword(body.password());
+
+            User savedUser = userService.registerUser(newUser);
 
             return ResponseEntity.ok(savedUser);
         }
