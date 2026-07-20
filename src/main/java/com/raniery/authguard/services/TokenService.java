@@ -10,6 +10,8 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.raniery.authguard.models.User;
 
 import java.time.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -19,6 +21,8 @@ import java.time.*;
  */
 @Service
 public class TokenService {
+
+    private static final Logger logger = LoggerFactory.getLogger(TokenService.class);
 
     @Value("${api.security.token.secret}")
     private String secret;
@@ -49,7 +53,7 @@ public class TokenService {
 
             return JWT.require(algorithm).withIssuer("authguard-api").build().verify(token).getSubject();
         } catch (JWTVerificationException exception){
-            System.out.println("ERRO NA VALIDAÇÃO DO TOKEN: " + exception.getMessage());
+            logger.warn("ERRO NA VALIDAÇÃO DO TOKEN:{}" + exception.getMessage());
             return "";
         }
     }
