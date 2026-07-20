@@ -2,6 +2,7 @@ package com.raniery.authguard.controllers;
 
 import com.raniery.authguard.dtos.LoginRequestDTO;
 import com.raniery.authguard.dtos.RegisterRequestDTO;
+import com.raniery.authguard.dtos.UserResponseDTO;
 import com.raniery.authguard.models.User;
 import com.raniery.authguard.services.UserService;
 
@@ -38,7 +39,8 @@ public class AuthController {
 
             User savedUser = userService.registerUser(newUser);
 
-            return ResponseEntity.ok(savedUser);
+            UserResponseDTO response = new UserResponseDTO(savedUser.getId(), savedUser.getName(), savedUser.getEmail());
+            return ResponseEntity.ok(response);
         }
 
         catch (RuntimeException e) {

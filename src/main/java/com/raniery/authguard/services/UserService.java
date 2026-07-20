@@ -48,12 +48,8 @@ public class UserService {
     public String loginUser(String email, String password){
         User user = userRepository.findByEmail(email);
 
-        if (user == null){
-            throw new RuntimeException("Usuário não encontrado!");
-        }
-
-        if (!passwordEncoder.matches(password, user.getPassword())){
-            throw new RuntimeException("Senha incorreta!");
+        if (user == null || !passwordEncoder.matches(password, user.getPassword())){
+            throw new RuntimeException("Credenciais Inválidas!");
         }
 
         return tokenService.generateToken(user);

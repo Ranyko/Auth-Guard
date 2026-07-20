@@ -20,53 +20,63 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * Filtro de segurança customizado que intercepta todas as requisições HTTP.
  * 
- * Este filtro extrai o token JWT do cabeçalho "Authorization", valida a sua 
- * assinatura e expiração através do {@link TokenService} e, caso seja válido, 
- * injeta a identidade do usuário (e seus Cargos/Roles) no SecurityContext 
+ * Este filtro extrai o token JWT do cabeçalho "Authorization", valida a sua
+ * assinatura e expiração através do {@link TokenService} e, caso seja válido,
+ * injeta a identidade do usuário (e seus Cargos/Roles) no SecurityContext
  * do Spring, permitindo que a aplicação saiba quem está logado.
  */
 @Component
-public class SecurityFilter extends OncePerRequestFilter{
+public class SecurityFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityFilter.class);
 
     @Autowired
     private TokenService tokenService;
-    
+
     @Autowired
     private UserRepository userRepository;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, java.io.IOException{
-        
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, java.io.IOException {
+
         var token = this.recoverToken(request);
-        
-        if (token != null){
+
+        if (token != null) {
             var email = tokenService.validateToken(token);
 
-            if (!email.isEmpty()){
+            if (!email.isEmpty()) {
+
                 User user = userRepository.findByEmail(email);
 
-                var authorities = user.getRoles().stream().map(role -> new org.springframework.security.core.authority.SimpleGrantedAuthority(role.getName())).toList();
+                if (user != null) {
+                    var authorities = user.getRoles().stream()
+                            .map(role -> new org.springframework.security.core.authority.SimpleGrantedAuthority(
+                                    role.getName()))
+                            .toList();
 
-                var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                
-                logger.debug("USUÁRIO AUTENTICADO NO FILTRO: {}" + user.getEmail());
-                logger.debug("ROLES ENCONTRADAS: {}" + authorities);
-        
+                    var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                    logger.debug("Usuário autenticado via filtro: {}", user.getEmail());
+                    logger.debug("Roles encontradas: {}", authorities);
+                } else {
+                    logger.warn("Token válido para email que não existe mais na base: {}", email);
+                }
+
             }
         }
 
         filterChain.doFilter(request, response);
     }
 
-    private String recoverToken(HttpServletRequest request){
+    private String recoverToken(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
-        
-        if (authHeader == null) return null;
+
+        if (authHeader == null)
+            return null;
 
         return authHeader.replace("Bearer ", "");
     }
-    
+
 }

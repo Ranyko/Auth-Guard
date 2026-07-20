@@ -53,7 +53,7 @@ public class TokenService {
 
             return JWT.require(algorithm).withIssuer("authguard-api").build().verify(token).getSubject();
         } catch (JWTVerificationException exception){
-            logger.warn("ERRO NA VALIDAÇÃO DO TOKEN:{}" + exception.getMessage());
+            logger.warn("ERRO NA VALIDAÇÃO DO TOKEN:{}", exception.getMessage());
             return "";
         }
     }
