@@ -12,6 +12,11 @@ import com.raniery.authguard.models.User;
 import java.time.*;
 
 
+/**
+ * Serviço responsável por toda a criptografia e validação de Tokens JWT.
+ * Utiliza o algoritmo HMAC256 e uma chave secreta (definida nas variáveis de ambiente)
+ * para garantir que os tokens não foram forjados ou adulterados.
+ */
 @Service
 public class TokenService {
 

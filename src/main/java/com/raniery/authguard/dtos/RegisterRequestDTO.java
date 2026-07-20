@@ -5,6 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Pattern;
 
+/**
+ * DTO (Data Transfer Object) responsável por receber e validar os dados de 
+ * Cadastro de novos usuários. Utiliza validações rigorosas para impedir senhas 
+ * fracas ou e-mails em formato inválido.
+ */
 public record RegisterRequestDTO(
 
     @NotBlank(message = "O nome nao pode estar vazio!!")

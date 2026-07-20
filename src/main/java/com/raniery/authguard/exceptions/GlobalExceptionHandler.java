@@ -9,6 +9,13 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * Para-Raios global de exceções da API.
+ * 
+ * Captura exceções lançadas em qualquer ponto da aplicação e as converte em
+ * respostas HTTP padronizadas (JSON). Isso evita o vazamento de Stacktraces 
+ * e melhora a experiência de quem consome a API.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
     

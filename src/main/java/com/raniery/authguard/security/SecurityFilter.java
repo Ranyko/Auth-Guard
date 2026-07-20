@@ -15,6 +15,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+/**
+ * Filtro de segurança customizado que intercepta todas as requisições HTTP.
+ * 
+ * Este filtro extrai o token JWT do cabeçalho "Authorization", valida a sua 
+ * assinatura e expiração através do {@link TokenService} e, caso seja válido, 
+ * injeta a identidade do usuário (e seus Cargos/Roles) no SecurityContext 
+ * do Spring, permitindo que a aplicação saiba quem está logado.
+ */
 @Component
 public class SecurityFilter extends OncePerRequestFilter{
     @Autowired

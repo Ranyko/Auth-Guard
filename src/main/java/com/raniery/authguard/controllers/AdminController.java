@@ -5,6 +5,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controlador de área restrita da aplicação.
+ * 
+ * Os endpoints desta classe estão protegidos pelo SecurityConfig e só podem 
+ * ser acessados por usuários que possuam a permissão ROLE_ADMIN.
+ */
 @RestController
 @RequestMapping("/admin")
 public class AdminController {

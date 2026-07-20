@@ -9,6 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+/**
+ * Script de inicialização (Data Seeder).
+ * 
+ * Executa automaticamente sempre que a aplicação Spring Boot sobe.
+ * Responsável por garantir que o banco de dados possua a infraestrutura 
+ * mínima (como os Cargos ROLE_ADMIN e ROLE_USER) para funcionar corretamente.
+ */
 @Component
 public class DataSeeder implements CommandLineRunner {
 

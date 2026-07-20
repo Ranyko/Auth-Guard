@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controlador REST responsável por expor os endpoints públicos de autenticação.
+ * Protegido contra abusos e injeta validações rigorosas (via DTOs) antes de 
+ * permitir acesso às regras de negócio.
+ */
 @RestController
 
 @RequestMapping("/auth")

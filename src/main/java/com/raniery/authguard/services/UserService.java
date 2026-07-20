@@ -9,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * Serviço central de gestão de usuários.
+ * Contém a regra de negócio para registro (hash de senhas, atribuição de cargos)
+ * e autenticação de usuários no banco de dados.
+ */
 @Service
 public class UserService {
 

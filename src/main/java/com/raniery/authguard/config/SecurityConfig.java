@@ -10,6 +10,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.*;
 import com.raniery.authguard.security.SecurityFilter;
 
+/**
+ * Configuração central de segurança da aplicação.
+ * 
+ * Define quais rotas são públicas (ex: /auth/**) e quais exigem autenticação
+ * ou regras específicas de acesso (ex: /admin/** exigindo ROLE_ADMIN).
+ * Também configura o filtro de JWT para rodar antes do filtro padrão do Spring.
+ */
 @Configuration
 public class SecurityConfig {
 
